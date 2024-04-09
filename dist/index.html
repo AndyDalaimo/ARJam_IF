@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="/favicon.ffcaeb58.png">
+    <meta name="viewport" content="width=device-width,user-scalable=no,minimal-ui">
+    <title>WebAR Jam Template World Tracking</title>
+    <link rel="stylesheet" href="/index.61d3354a.css"><script src="/index.b71e74eb.js" defer=""></script>
+</head>
+<body class="prevent-select">
+    <!-- Loader Screen -->
+    <div class="loader-loading" id="loader-container">
+        <div id="bg-image"></div>
+        <div class="spinner spinner-1"></div>
+        <div class="spinner spinner-2"></div>
+        <p id="loading-text"></p>
+    </div>
+    <!-- <p class="debug-text" id="touchDevice_debug_text"> model intersect </p> -->
+    <section class="splashScreen" id="splashScreen">
+        <div class="splashScreenContentContianer">
+            <h1 class="splashScreenText">
+                Welcome! Simply tap the 'Launch Experience' button to start the augmented reality experience.
+            </h1>
+            <button class="button buttonMenu" id="launch-btn">Launch Experience</button>
+        </div>
+    </section>
+    <section id="gameplayScreen" style="display: none">
+        <div class="gameplayContentContainer">
+            <div id="gameplay-ui" style="display: none">
+                <button class="button buttonRightTop" id="recenter-btn">
+                    <img src="/Replace_Button_Icon.d96a04fe.png">
+                </button>
+                <div class="infor-textBox" id="infor-textBox" style="display: none">
+                    <p id="infor-text"> This is a Test </p>
+                </div>
+            </div>
+            <div id="placementMode-ui">
+                <button class="button" id="tap_to_place-btn"> Tap to place </button>
+            </div>
+        </div>    
+    </section>
+</body>
+</html>

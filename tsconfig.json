@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "outDir": "./lib",
+      "lib": ["es2015", "dom"],
+      "strict": true,
+      "esModuleInterop": true,
+      "rootDir": "./src",
+      "alwaysStrict": false,
+      "allowJs": true,
+      "typeRoots": ["node_modules/@types"]
+
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+  }
