@@ -22,7 +22,7 @@ export default
 		type : "gltfModel",
 		path :
 		[
-			new URL( "../../../assets/Models/Hotspot.glb", import.meta.url ).href
+			new URL( "../../../assets/Models/Plant.glb", import.meta.url ).href
 		]
 	},
 	{
@@ -30,7 +30,7 @@ export default
 		type : "gltfModel",
 		path :
 		[
-			new URL( "../../../assets/Models/Hotspot.glb", import.meta.url ).href
+			new URL( "../../../assets/Models/Whale.glb", import.meta.url ).href
 		]
 	},
 	{
@@ -38,7 +38,31 @@ export default
 		type : "gltfModel",
 		path :
 		[
-			new URL( "../../../assets/Models/Hotspot.glb", import.meta.url ).href
+			new URL( "../../../assets/Models/Smog.glb", import.meta.url ).href
+		]
+	},
+	{
+		name : "forestText",
+		type : "gltfModel",
+		path :
+		[
+			new URL( "../../../assets/Models/Text.glb", import.meta.url ).href
+		]
+	},
+	{
+		name : "beachText",
+		type : "gltfModel",
+		path :
+		[
+			new URL( "../../../assets/Models/Text.glb", import.meta.url ).href
+		]
+	},
+	{
+		name : "airText",
+		type : "gltfModel",
+		path :
+		[
+			new URL( "../../../assets/Models/Text.glb", import.meta.url ).href
 		]
 	},
 	{

@@ -26,6 +26,12 @@ export default class Raycaster
                 this.mouse.y = -( event.changedTouches[0].clientY / window.innerHeight ) * 2 + 1; 
                 this.checkIntersection();
             } )
+            document.addEventListener( "touchmove", ( event )=> 
+            {
+                this.mouse.x = ( event.changedTouches[0].clientX / window.innerWidth ) * 2 - 1;
+                this.mouse.y = -( event.changedTouches[0].clientY / window.innerHeight ) * 2 + 1;
+                this.rotateEarth(this.mouse.x);
+            } )
         }
         else 
         {
@@ -35,6 +41,12 @@ export default class Raycaster
                 this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
                 this.checkIntersection();
                 // console.log( `Mouse x = ${this.mouse.x} Mouse y = ${this.mouse.y}`);
+            } )
+            document.addEventListener( "mousemove", ( event )=> 
+            {
+                this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+                this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+                this.rotateEarth(this.mouse.x);
             } )
         }
     }
@@ -46,6 +58,7 @@ export default class Raycaster
             this.raycaster.setFromCamera(this.mouse, this.project.camera);
         
             const intersects = this.raycaster.intersectObjects(this.scene.children[0].children, true);
+            // console.log(intersects);
 
             if (intersects.length > 0)
             {
@@ -64,5 +77,16 @@ export default class Raycaster
             }
         }
         
+    }
+    // Rotate the earth when user drags across screen
+	rotateEarth(targetX)
+	{
+        if (this.project.hasPlaced)
+        {
+            let earthObject = this.scene.children[0].children[4];
+            earthObject.rotation.y += 1.5 * (targetX * 25 - earthObject.rotation.y);
+            let hotSpotGroup = this.scene.children[0].children[5];
+            hotSpotGroup.rotation.y += 1.5 * (targetX * 25 - hotSpotGroup.rotation.y);
+        }
     }
 }

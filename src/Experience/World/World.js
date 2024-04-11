@@ -19,6 +19,7 @@ export default class World {
 		this.project = new Project(); // create ref to the project class 
 		this.zappar = this.project.zappar; // create ref to Zappar in the project file
 		this.scene = this.project.scene; // create ref to the scene in the project file
+
 	}
 	init() {
 		// Setup
@@ -26,6 +27,8 @@ export default class World {
 		this.plane = new Floor( 5 ); // Create a shadow plane
 		this.asset3D = new Asset3D(); // initialise the asset3D and create a ref
 		this.raycaster = new Raycaster();
+		this.forestText = this.scene.children[0].children[6];
+		
 
 		this.setInstance();
 		this.placement_Indicator_initialise();
@@ -45,18 +48,49 @@ export default class World {
 		this.zappar.instantTrackerGroup.add( this.placement_indicator_mesh );
 		// Set the scale and rotation 
 		this.placement_indicator_mesh.scale.set( 0, 0, 1 );
-		this.placement_indicator_mesh.position.y = 0.01;
+		// this.placement_indicator_mesh.position.y = -0.5;
+		// this.placement_indicator_mesh.position.z = -3;
+		this.placement_indicator_mesh.position.set(0.0, -1.5, -3.2);
 		this.placement_indicator_mesh.rotation.x = - Math.PI / 2;
 	}
+	// Call appropriate functionality with mesh the user is wanting to interact with
 	returnedIntersectedObject( intersectedMesh ) {
-		this.project.gameplayScreen.infor_text.innerText = textInfor.get(intersectedMesh.name);
-		this.project.gameplayScreen.infor_textBox.style.display = "flex";
+		// this.project.gameplayScreen.infor_text.innerText = textInfor.get(intersectedMesh.name);
 
-		clearInterval(this.interval);
-		this.interval = setInterval(() => {
-			this.project.gameplayScreen.infor_textBox.style.display = "none";
-			clearInterval(this.interval);
-		}, 2000);
+		this.initiateFactSheet( intersectedMesh.name );
+		console.log(intersectedMesh.name);
+		this.project.gameplayScreen.infor_textBox.style.display = "flex";
+		this.project.gameplayScreen.returnToEarth_btn.style.display = "flex";
+		this.project.gameplayScreen.infor_text.style.display = "none";
+		this.project.gameplayScreen.returnToEarth_btn.addEventListener( 'touchstart', ()=> {
+			this.returnToEarthView();
+		} );
+
+	}
+	initiateFactSheet(name)
+	{
+		switch (name)
+		{
+			case "Plane005":
+				console.log("Show Forest Fact Sheet");
+				this.forestText.visible = true;
+				break;
+			case "Plane019":
+				console.log("Show Ocean Fact Sheet");
+				this.forestText.visible = true;
+				break;
+			case "Smog":
+				console.log("Show Smog Fact Sheet");
+				this.forestText.visible = true;
+				break;
+
+		}
+	}
+	returnToEarthView()
+	{
+		this.project.gameplayScreen.infor_textBox.style.display = "none";
+		this.project.gameplayScreen.returnToEarth_btn.style.display = "none";
+		this.forestText.visible = false;
 	}
 	// This Function is called for the project script. 
 	placementMode( bool ) {

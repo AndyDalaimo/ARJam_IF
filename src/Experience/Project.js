@@ -58,6 +58,7 @@ export default class Project {
        	recenter_btn : document.getElementById( 'recenter-btn' ),
        	infor_textBox : document.getElementById( 'infor-textBox' ),
        	infor_text : document.getElementById( 'infor-text' ),
+		returnToEarth_btn : document.getElementById( 'returnToEarth_btn')
        };
         
 		/**
@@ -97,6 +98,10 @@ export default class Project {
 		this.gameplayScreen.recenter_btn.addEventListener( 'click', () => {
 			this.placementMode( true );
 		} );
+		/*this.gameplayScreen.returnToEarth_btn.addEventListener( 'click', ()=> {
+			console.log("return to earth button");
+			this.returnToEarthView();
+		} );*/
 	}
 	init() {
 		/**
@@ -242,6 +247,10 @@ export default class Project {
 			this.uiSoundEffect( this.TapToPlace_auido );
 			this.world.placementMode( false );
 		}
+	}
+	returnToEarthView()
+	{
+		this.gameplayScreen.infor_textBox.style.display = "none";
 	}
 	/**
      *  Game Loop
