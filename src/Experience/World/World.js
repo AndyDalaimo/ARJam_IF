@@ -13,6 +13,12 @@ const textInfor = new Map( [
 	["Cube", "This is a model of a cube"]
 ]);
 
+// Meshes for Raycast to avoid
+const avoidMesh = ["Earth", "Plane017", "undefined"];
+
+let inReadMode = false;
+let currentFactSheet;
+
 export default class World {
 	constructor() {
 		console.log( "World File" );
@@ -28,6 +34,8 @@ export default class World {
 		this.asset3D = new Asset3D(); // initialise the asset3D and create a ref
 		this.raycaster = new Raycaster();
 		this.forestText = this.scene.children[0].children[6];
+		this.beachText = this.scene.children[0].children[7];
+		this.airText = this.scene.children[0].children[8];
 		
 
 		this.setInstance();
@@ -48,23 +56,25 @@ export default class World {
 		this.zappar.instantTrackerGroup.add( this.placement_indicator_mesh );
 		// Set the scale and rotation 
 		this.placement_indicator_mesh.scale.set( 0, 0, 1 );
-		// this.placement_indicator_mesh.position.y = -0.5;
-		// this.placement_indicator_mesh.position.z = -3;
 		this.placement_indicator_mesh.position.set(0.0, -1.5, -3.2);
 		this.placement_indicator_mesh.rotation.x = - Math.PI / 2;
 	}
 	// Call appropriate functionality with mesh the user is wanting to interact with
 	returnedIntersectedObject( intersectedMesh ) {
 		// this.project.gameplayScreen.infor_text.innerText = textInfor.get(intersectedMesh.name);
-
-		this.initiateFactSheet( intersectedMesh.name );
-		console.log(intersectedMesh.name);
-		this.project.gameplayScreen.infor_textBox.style.display = "flex";
-		this.project.gameplayScreen.returnToEarth_btn.style.display = "flex";
-		this.project.gameplayScreen.infor_text.style.display = "none";
-		this.project.gameplayScreen.returnToEarth_btn.addEventListener( 'touchstart', ()=> {
-			this.returnToEarthView();
-		} );
+		
+		if (!avoidMesh.includes(intersectedMesh.name, 0) && inReadMode === false)
+		{
+			console.log(intersectedMesh.name);
+			inReadMode = true;
+			this.initiateFactSheet( intersectedMesh.name );
+			this.project.gameplayScreen.infor_textBox.style.display = "flex";
+			this.project.gameplayScreen.returnToEarth_btn.style.display = "flex";
+			this.project.gameplayScreen.infor_text.style.display = "none";
+			this.project.gameplayScreen.returnToEarth_btn.addEventListener( 'touchstart', ()=> {
+				this.returnToEarthView(currentFactSheet);
+			} );
+		}
 
 	}
 	initiateFactSheet(name)
@@ -73,24 +83,80 @@ export default class World {
 		{
 			case "Plane005":
 				console.log("Show Forest Fact Sheet");
+				this.forestText.position.set(this.project.camera.position.x, this.project.camera.position.y + 1, this.project.camera.position.z - .75);
+				this.forestText.rotation.set(-1.5 * Math.PI, this.project.camera.rotation.y, this.project.camera.rotation.z);
+				gsap.to( this.forestText.scale, { x : 1.3, z : 1.3, duration : 0.4 } );
+				currentFactSheet = "forest";
 				this.forestText.visible = true;
 				break;
 			case "Plane019":
 				console.log("Show Ocean Fact Sheet");
-				this.forestText.visible = true;
+				this.beachText.position.set(this.project.camera.position.x, this.project.camera.position.y + 1, this.project.camera.position.z - .75);
+				this.beachText.rotation.set(-1.5 * Math.PI, this.project.camera.rotation.y, this.project.camera.rotation.z);
+				gsap.to( this.beachText.scale, { x : 1.3, z : 1.3, duration : 0.4 } );
+				currentFactSheet = "beach";
+				this.beachText.visible = true;
 				break;
 			case "Smog":
 				console.log("Show Smog Fact Sheet");
-				this.forestText.visible = true;
+				this.airText.position.set(this.project.camera.position.x, this.project.camera.position.y + 1, this.project.camera.position.z - .75);
+				this.airText.rotation.set(-1.5 * Math.PI, this.project.camera.rotation.y, this.project.camera.rotation.z, undefined);
+				gsap.to( this.airText.scale, { x : 1.3, z : 1.3, duration : 0.4 } );
+				currentFactSheet = "air";
+				this.airText.visible = true;
 				break;
-
+						
 		}
 	}
-	returnToEarthView()
+	returnToEarthView(currentFactSheet)
 	{
 		this.project.gameplayScreen.infor_textBox.style.display = "none";
 		this.project.gameplayScreen.returnToEarth_btn.style.display = "none";
-		this.forestText.visible = false;
+		inReadMode = false;
+		let currScale = this.forestText.scale;
+
+		switch (currentFactSheet)
+		{
+			case "forest" :
+				gsap.to( this.forestText.scale, {
+					x : 0,
+					z : 0,
+					duration : 0.4,
+					// a call back is used to then wait for the animaton to finsihed before complete the below actions
+					onComplete : () => {
+						this.forestText.visible = false;
+						this.forestText.position.set(100,0,5);
+						this.forestText.scale = currScale;
+					}
+				} );
+				break;
+			case "beach" :
+				gsap.to( this.beachText.scale, {
+					x : 0,
+					z : 0,
+					duration : 0.4,
+					// a call back is used to then wait for the animaton to finsihed before complete the below actions
+					onComplete : () => {
+						this.beachText.visible = false;
+						this.beachText.position.set(100,0,5);
+						this.beachText.scale = currScale;
+					}
+				} );
+				break;
+			case "air" :
+				gsap.to( this.airText.scale, {
+					x : 0,
+					z : 0,
+					duration : 0.4,
+					// a call back is used to then wait for the animaton to finsihed before complete the below actions
+					onComplete : () => {
+						this.airText.visible = false;
+						this.airText.position.set(100,0,5);
+						this.airText.scale = currScale;
+					}
+				} );
+				break;	
+		}
 	}
 	// This Function is called for the project script. 
 	placementMode( bool ) {

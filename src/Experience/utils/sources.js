@@ -46,7 +46,7 @@ export default
 		type : "gltfModel",
 		path :
 		[
-			new URL( "../../../assets/Models/Text.glb", import.meta.url ).href
+			new URL( "../../../assets/Models/ForestFactsglb.glb", import.meta.url ).href
 		]
 	},
 	{
@@ -54,7 +54,7 @@ export default
 		type : "gltfModel",
 		path :
 		[
-			new URL( "../../../assets/Models/Text.glb", import.meta.url ).href
+			new URL( "../../../assets/Models/OceanText.glb", import.meta.url ).href
 		]
 	},
 	{
@@ -62,7 +62,7 @@ export default
 		type : "gltfModel",
 		path :
 		[
-			new URL( "../../../assets/Models/Text.glb", import.meta.url ).href
+			new URL( "../../../assets/Models/OzoneFactsglb.glb", import.meta.url ).href
 		]
 	},
 	{

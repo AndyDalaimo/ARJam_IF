@@ -21,6 +21,8 @@ export default class Asset3D {
 		this.hotspot02Resource = this.resources.items.hotspot02;
 		this.hotspot03Resource = this.resources.items.hotspot03;
 		this.forestTextResource = this.resources.items.forestText;
+		this.beachTextResource = this.resources.items.beachText;
+		this.airTextResource = this.resources.items.airText;
 		
 		// create a ref for accessing any animations stored in the glb file
 		this.resourceAnimation = this.resource.animations; 
@@ -42,6 +44,8 @@ export default class Asset3D {
 		this.hotspot02Model = this.hotspot02Resource.scene;
 		this.hotspot03Model = this.hotspot03Resource.scene;
 		this.forestTextModel = this.forestTextResource.scene;
+		this.beachTextModel = this.beachTextResource.scene;
+		this.airTextModel = this.airTextResource.scene;
 		// Look through all of the model  
 		console.log( this.resource );
 		this.model.traverse( ( child ) => {
@@ -67,8 +71,8 @@ export default class Asset3D {
 		this.hotspot01Model.traverse( ( child ) => {
 			if ( child.isMesh ) { 
 				// If child is a mesh then ensure that the meshes cast shadows.
-				child.castShadow = true; 
-				child.receiveShadow = true;
+				child.castShadow = false; 
+				child.receiveShadow = false;
 				child.material.vertexColors = false;
 				// set correct texture encording for all imported textures in the model
 				// NO TEXTURES ON THIS MODEL YET 
@@ -78,8 +82,8 @@ export default class Asset3D {
 		this.hotspot02Model.traverse( ( child ) => {
 			if ( child.isMesh ) { 
 				// If child is a mesh then ensure that the meshes cast shadows.
-				child.castShadow = true; 
-				child.receiveShadow = true;
+				child.castShadow = false; 
+				child.receiveShadow = false;
 				child.material.vertexColors = false;
 				// set correct texture encording for all imported textures in the model
 				// NO TEXTURES ON THIS MODEL YET 
@@ -89,8 +93,8 @@ export default class Asset3D {
 		this.hotspot03Model.traverse( ( child ) => {
 			if ( child.isMesh ) { 
 				// If child is a mesh then ensure that the meshes cast shadows.
-				child.castShadow = true; 
-				child.receiveShadow = true;
+				child.castShadow = false; 
+				child.receiveShadow = false;
 				child.material.vertexColors = false;
 				// set correct texture encording for all imported textures in the model
 				// NO TEXTURES ON THIS MODEL YET 
@@ -100,8 +104,30 @@ export default class Asset3D {
 		this.forestTextModel.traverse( ( child ) => {
 			if ( child.isMesh ) { 
 				// If child is a mesh then ensure that the meshes cast shadows.
-				child.castShadow = true; 
-				child.receiveShadow = true;
+				child.castShadow = false; 
+				child.receiveShadow = false;
+				child.material.vertexColors = false;
+				// set correct texture encording for all imported textures in the model
+				// NO TEXTURES ON THIS MODEL YET 
+				// child.material.map.encoding = THREE.sRGBEncoding;
+			}
+		} );
+		this.beachTextModel.traverse( ( child ) => {
+			if ( child.isMesh ) { 
+				// If child is a mesh then ensure that the meshes cast shadows.
+				child.castShadow = false; 
+				child.receiveShadow = false;
+				child.material.vertexColors = false;
+				// set correct texture encording for all imported textures in the model
+				// NO TEXTURES ON THIS MODEL YET 
+				// child.material.map.encoding = THREE.sRGBEncoding;
+			}
+		} );
+		this.airTextModel.traverse( ( child ) => {
+			if ( child.isMesh ) { 
+				// If child is a mesh then ensure that the meshes cast shadows.
+				child.castShadow = false; 
+				child.receiveShadow = false;
 				child.material.vertexColors = false;
 				// set correct texture encording for all imported textures in the model
 				// NO TEXTURES ON THIS MODEL YET 
@@ -111,21 +137,27 @@ export default class Asset3D {
 		// Positions
 		this.model.position.set( 0, 0, 0 );
 		// Center the model and scale it down to more readable size
-		this.earthModel.position.set( 0.1, -1.5, -3 );
+		this.earthModel.position.set( 0.1, -1.8, -5 );
 		this.earthModel.scale.set( .8, .8, .8);
 		this.hotspot01Model.scale.set( .7, .7, .7);
 		this.hotspot02Model.scale.set( .4, .4, .4);
 		this.hotspot03Model.scale.set( .5, .5, .5);
 		
 		// Text Models with fact sheets for area. Hide until needed
-		this.forestTextModel.position.set(1.5, .7, -1);
+		this.forestTextModel.position.set(100, .7, 5);
 		this.forestTextModel.rotation.x = -1.5 * Math.PI;
 		this.forestTextModel.visible = false;
+		this.beachTextModel.position.set(100, .7, 5);
+		this.beachTextModel.rotation.x = -1.5 * Math.PI;
+		this.beachTextModel.visible = false;
+		this.airTextModel.position.set(100, .7, 5);
+		this.airTextModel.rotation.x = -1.5 * Math.PI;
+		this.airTextModel.visible = false;
 
 		// Group all of the hotspots together to rotate around the earthModel as a pivot point
 		group = new THREE.Group();
 		group.add(this.hotspot01Model, this.hotspot02Model, this.hotspot03Model);
-		group.position.set( 0.1, 0, -3);
+		group.position.set( 0.1, 0, -5);
 
 		this.hotspot01Model.position.set(2.7, .5, 0);
 		this.hotspot02Model.position.set(-3, .8, 0);
@@ -133,7 +165,7 @@ export default class Asset3D {
 		this.hotspot03Model.position.set(-0.1, 2, 0);
 
 		// Need to add the model to the instantTrackerGroup for it to be display
-		this.zappar.instantTrackerGroup.add( this.earthModel, group, this.forestTextModel );
+		this.zappar.instantTrackerGroup.add( this.earthModel, group, this.forestTextModel, this.beachTextModel, this.airTextModel );
 	}
 	setAnimation() {
 		if( !this.hasAnimation ) return; // if the model has no animation do nothing
@@ -168,6 +200,6 @@ export default class Asset3D {
 			if( animationPaused ) return; // Stop the animation mixter from updating, which pauses the anaimtion
 			this.animMixer.update( this.time.delta * 0.001 ); // update the animation mixer
 		}
-
+		group.rotation.y += 0.001;
 	}
 }

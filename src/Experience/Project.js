@@ -238,6 +238,9 @@ export default class Project {
 		if ( bool ) {  // If in Placement Mode
 			this.gameplayScreen.placementMode_ui.style.display = "block";
 			this.gameplayScreen.gameplay_ui.style.display = "none";
+			this.world.forestText.visible = false;
+			this.world.beachText.visible = false;
+			this.world.airText.visible = false;
 			this.world.placementMode( true );
             
 		}

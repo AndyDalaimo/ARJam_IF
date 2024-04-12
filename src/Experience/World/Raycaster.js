@@ -2,6 +2,8 @@ import * as THREE from "three";
 
 import Project from "../Project";
 
+let earthObject, hotSpotGroup;
+
 export default class Raycaster 
 {
     constructor()
@@ -18,6 +20,10 @@ export default class Raycaster
 
     init()
     {
+        // define variables for objects to move later
+        earthObject = this.scene.children[0].children[4];
+        hotSpotGroup = this.scene.children[0].children[5];
+
         if (this.project.isTouchScreen)
         {
             document.addEventListener( "touchend", ( event )=>
@@ -83,10 +89,10 @@ export default class Raycaster
 	{
         if (this.project.hasPlaced)
         {
-            let earthObject = this.scene.children[0].children[4];
-            earthObject.rotation.y += 1.5 * (targetX * 25 - earthObject.rotation.y);
-            let hotSpotGroup = this.scene.children[0].children[5];
-            hotSpotGroup.rotation.y += 1.5 * (targetX * 25 - hotSpotGroup.rotation.y);
+            // let earthObject = this.scene.children[0].children[4];
+            earthObject.rotation.y += 1.5 * (targetX * 10 - earthObject.rotation.y);
+            // let hotSpotGroup = this.scene.children[0].children[5];
+            hotSpotGroup.rotation.y += 1.5 * (targetX * 10 - hotSpotGroup.rotation.y);
         }
     }
 }
